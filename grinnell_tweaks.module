@@ -5,7 +5,7 @@
  */
 function grinnell_tweaks_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
-    case 'islandora_solr_search_block_form':
+    case 'islandora_extended_search_form':
       // Form modification code goes here.
       $search_type_count = count($form['search_type']) + 1;
       for($i=1;$i < $search_type_count; $i++) {
