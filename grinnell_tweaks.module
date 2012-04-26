@@ -7,9 +7,10 @@ function grinnell_tweaks_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'islandora_extended_search_form':
       // Form modification code goes here.
-      $search_type_count = count($form['search_type']) + 1;
-      for($i=1;$i < $search_type_count; $i++) {
-        $form['search_type']['type'.$i]['#value'] = 'text';
+      $keys = array_keys($form['terms']);
+      $numeric_keys = array_filter($keys,'is_numeric');
+      foreach ($numeric_keys as $key) {
+        $form['terms'][$key]['#value'] = 'text';
       }
       break;
   }
