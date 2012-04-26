@@ -1,0 +1,4 @@
+name = Grinnell Tweaks
+description = A bundle of site-specific stuff for Grinnell.
+version = 0.1
+core = 6.x
