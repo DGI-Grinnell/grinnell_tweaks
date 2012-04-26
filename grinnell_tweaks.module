@@ -10,7 +10,7 @@ function grinnell_tweaks_form_alter(&$form, $form_state, $form_id) {
       $keys = array_keys($form['terms']);
       $numeric_keys = array_filter($keys,'is_numeric');
       foreach ($numeric_keys as $key) {
-        $form['terms'][$key]['#value'] = 'text';
+        $form['terms'][$key]['field']['#value'] = 'text';
       }
       break;
   }
