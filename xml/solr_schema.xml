@@ -534,8 +534,8 @@
         <field name="eac.entityId" type="string" indexed="true" stored="true" multiValued="true" />
         
         <field name="eac.existDates" type="text" indexed="true" stored="true" multiValued="false" />
-        <field name="eac.existDates.fromDate" type="sint" default="0" indexed="true" stored="true" multiValued="false" />
-        <field name="eac.existDates.toDate" type="sint" default="9999" indexed="true" stored="true" multiValued="false" />
+        <field name="eac.existDates.fromDate" type="sint" indexed="true" stored="true" multiValued="false" />
+        <field name="eac.existDates.toDate" type="sint" indexed="true" stored="true" multiValued="false" />
         
         <field name="eac.classYear" type="sint" indexed="true" stored="true" multiValued="false" />
         <field name="eac.position" type="text" indexed="true" stored="true" multiValued="true" />
