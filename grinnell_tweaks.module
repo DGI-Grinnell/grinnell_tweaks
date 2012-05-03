@@ -16,7 +16,7 @@ function grinnell_tweaks_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
-function grinnell_tweaks_islandora_solr_search_query_processor(IslandoraSolrQueryProcessor &$processor) {
+function grinnell_tweaks_islandora_solr_search_query_processor(IslandoraSolrQueryProcessor $processor) {
   $processor->solrParams['sort'] = $_SESSION['scholar']['search']['sort'];
   $processor->solrParams['order'] = $_SESSION['scholar']['search']['order'];
 }
