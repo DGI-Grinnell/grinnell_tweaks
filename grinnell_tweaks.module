@@ -1,5 +1,24 @@
 <?php
 
+function grinnell_tweaks_menu_alter(&$items) {
+  $items['islandora/solr/search']['page callback'] = 'grinnell_tweaks_islandora_solr_search';
+}
+
+function grinnell_tweaks_islandora_solr_search($query, $fq = NULL, $dismax = NULL, $display = NULL) {
+  if (isset($REQUEST['form_id'])) {
+    switch ($REQUEST['form_id']) {
+      case 'scholar_search_form':
+      case 'islandora_extended_search_form':
+        $_SESSION['scholar']['search']['sort'] = $_REQUEST['sort'];
+        $_SESSION['scholar']['search']['order'] = $_REQUEST['order'];
+        $_SESSION['islandora_extended_search']['sort'] = $_REQUEST['sort'];
+        $_SESSION['islandora_extended_search']['order'] = $_REQUEST['order'];
+        break;
+    }
+  }
+  return islandora_solr_search($query,$fq,$dismax,$display);
+}
+
 /**
  * Implementation of hook_form_alter().
  */
@@ -18,6 +37,11 @@ function grinnell_tweaks_form_alter(&$form, $form_state, $form_id) {
 
 function grinnell_tweaks_islandora_solr_search_query_processor() {
   if (isset($_SESSION['scholar']['search']['sort'])) {
-    return array('sort' => $_SESSION['scholar']['search']['sort']);
+    $sort = $_SESSION['scholar']['search']['sort'];
+    if (isset($_SESSION['scholar']['search']['order'])) {
+      $order = $_SESSION['scholar']['search']['order'];
+      return array('sort' => $sort .' '. $order);
+    }
   }
 }
+
