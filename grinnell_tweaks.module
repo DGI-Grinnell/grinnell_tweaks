@@ -1,5 +1,9 @@
 <?php
 
+function grinnell_tweaks_init() {
+  drupal_add_js(drupal_get_path('module','grinnell_tweaks'. '/js/language.js'));
+}
+
 function grinnell_tweaks_menu_alter(&$items) {
   $items['islandora/solr/search']['page callback'] = 'grinnell_tweaks_islandora_solr_search';
 }
