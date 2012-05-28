@@ -39,15 +39,17 @@ function grinnell_tweaks_islandora_solr_search($query, $fq = NULL, $dismax = NUL
  * Implementation of hook_form_alter().
  */
 function grinnell_tweaks_form_alter(&$form, $form_state, $form_id) {
-  switch ($form_id) {
-    case 'islandora_extended_search_form':
-      // Form modification code goes here.
-      $keys = array_keys($form['terms']);
-      $numeric_keys = array_filter($keys,'is_numeric');
-      foreach ($numeric_keys as $key) {
-        $form['terms'][$key]['field']['#value'] = 'text';
-      }
-      break;
+  if (preg_match('/^contact_mail_page/',$form_id)) {
+    $drawer_link = l('v Grinnell College Contact Information v','');
+    $form['#prefix'] = '<div id="contact-form-drawer">';
+    $form['#suffix'] = '</div><div class="contact-form-link-wrapper">'. $drawer_link . '</div>';
+  }
+  if ('islandora_extended_search_form' == $form_id) {
+    $keys = array_keys($form['terms']);
+    $numeric_keys = array_filter($keys,'is_numeric');
+    foreach ($numeric_keys as $key) {
+      $form['terms'][$key]['field']['#value'] = 'text';
+    }
   }
 }
 
@@ -77,5 +79,7 @@ function grinnell_tweaks_menu() {
 
   return $items;
 }
+
+
 
 
