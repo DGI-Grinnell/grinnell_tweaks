@@ -1,8 +1,20 @@
 <?php
 
-function grinnell_tweaks_init() {
-  drupal_add_js(drupal_get_path('module','grinnell_tweaks'. '/js/language.js'));
+/*
+function grinnell_tweaks_form_content_model_viewer_ingest_metadata_form_alter(&$form, &$form_state) {
+  dpm($form);
+  $format = "o-m-d\TH:i:s\Z";
+  $present = time();
+  $formatted = date($format,$present);
+  $date_fields = array('accessioned','submitted','available','created');
+  
+  if ('MODS Form' == $form['forms']['#value'] && 2 == $form['#parameters'][1]['storage']['step']) {
+    foreach($date_fields as $date_field) {
+      $form['originInfo']['dates'][$date_field]['#default_value'] = $formatted;
+    }
+  }
 }
+*/
 
 function grinnell_tweaks_menu_alter(&$items) {
   $items['islandora/solr/search']['page callback'] = 'grinnell_tweaks_islandora_solr_search';
@@ -48,4 +60,22 @@ function grinnell_tweaks_islandora_solr_search_query_processor() {
     }
   }
 }
+
+/**
+ * Implementation of hook_menu().
+ */
+function grinnell_tweaks_menu() {
+  $items = array();
+
+  $items['viewer/%/%/raw'] = array(
+    'title' => $repository_title,
+    'page callback' => 'repository_page',
+    'page arguments' => array(1, 2),
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('view fedora collection'),
+  );
+
+  return $items;
+}
+
 
