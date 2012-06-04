@@ -54,15 +54,15 @@ function grinnell_tweaks_form_alter(&$form, $form_state, $form_id) {
   if ('islandora_xacml_editor_page' == $form_id) {
     // stop Team Grinnell hanging themselves by blocking access to XML or RDF datastreams,
     // which will make DC, MODS, RELS-[IN|EX]T and XACML policies not work 
-    unset($form['mime']['options']['application/rdf+xml']);
-    unset($form['mime']['options']['text/xml']);
+    unset($form['mime']['#options']['application/rdf+xml']);
+    unset($form['mime']['#options']['text/xml']);
     // ... and stop them blocking the protected datastreams themselves
-    unset($form['dsid']['options']['DC']);
-    unset($form['dsid']['options']['MODS']);
-    unset($form['dsid']['options']['RELS-EXT']);
-    unset($form['dsid']['options']['RELS-INT']);
-    unset($form['dsid']['options']['COLLECTION_POLICY']);
-    unset($form['dsid']['options']['POLICY']);
+    unset($form['dsid']['#options']['DC']);
+    unset($form['dsid']['#options']['MODS']);
+    unset($form['dsid']['#options']['RELS-EXT']);
+    unset($form['dsid']['#options']['RELS-INT']);
+    unset($form['dsid']['#options']['COLLECTION_POLICY']);
+    unset($form['dsid']['#options']['POLICY']);
   }
 }
 
