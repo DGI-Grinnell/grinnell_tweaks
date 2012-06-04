@@ -54,13 +54,39 @@ function grinnell_tweaks_form_alter(&$form, $form_state, $form_id) {
 }
 
 function grinnell_tweaks_islandora_solr_search_query_processor() {
+
+  GLOBAL $user;
+  
+  $users = array('all');
+  $roles = array('all');
+  
+  if (!user_is_anonymous()) {
+    $users[] = _grinnell_tweaks_in_quotes($user->name);
+    $roles = array_merge($roles, array_map('_grinnell_tweaks_in_quotes',$user->roles));
+  }
+  else {
+    $roles[] = 'anonymous user';
+  }
+      
+  $params['fq'] = array(
+     'rels.isViewableByUser:('. join(' OR ',$users) .')',
+     'rels.isViewableByRole:('. join(' OR ',$roles) .')',
+  );
+  
   if (isset($_SESSION['scholar']['search']['sort'])) {
     $sort = $_SESSION['scholar']['search']['sort'];
     if (isset($_SESSION['scholar']['search']['order'])) {
       $order = $_SESSION['scholar']['search']['order'];
-      return array('sort' => $sort .' '. $order);
+      $params['sort'] = $sort .' '. $order;
     }
   }
+  return $params;
+  
+}
+
+
+function _grinnell_tweaks_in_quotes($string) {
+  return '"'. $string .'"';
 }
 
 /**
