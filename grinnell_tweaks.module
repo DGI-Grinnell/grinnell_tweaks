@@ -82,9 +82,9 @@ function grinnell_tweaks_islandora_solr_search_query_processor() {
   }
       
   $params['fq'] = array(
-     'rels.isViewableByUser:('. join(' OR ',$users) .')',
-     'rels.isViewableByRole:('. join(' OR ',$roles) .')',
-  );
+     '+rels.isViewableByUser:('. join(' OR ',$users) .')',
+     '+rels.isViewableByRole:('. join(' OR ',$roles) .')',
+  )+;
   
   if (isset($_SESSION['scholar']['search']['sort'])) {
     $sort = $_SESSION['scholar']['search']['sort'];
