@@ -70,7 +70,7 @@ function grinnell_tweaks_islandora_solr_search_query_processor() {
 
   GLOBAL $user;
   
-  $users = array('all');
+  $users = array('anonymous');
   $roles = array('all');
   
   if (!user_is_anonymous()) {
@@ -78,7 +78,7 @@ function grinnell_tweaks_islandora_solr_search_query_processor() {
     $roles = array_merge($roles, array_map('_grinnell_tweaks_in_quotes',$user->roles));
   }
   else {
-    $roles[] = 'anonymous user';
+    $roles[] = '"anonymous user"';
   }
       
   $params['fq'] = array(
