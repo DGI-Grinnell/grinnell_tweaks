@@ -115,7 +115,38 @@ function grinnell_tweaks_menu() {
     'access arguments' => array('view fedora collection'),
   );
 
+  $items['admin/policy_sync/%'] = array(
+    'title' => 'Menu item',
+    'description' => 'The description of the menu item. It is used as title attribute and on the administration overview page.',
+    'page callback' => 'grinnell_tweaks_policy_sync_batch',
+    'page arguments' => array(2),
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('administer grinnell_tweaks'),
+  );
+  
+  
   return $items;
+}
+
+function grinnell_tweaks_policy_sync_batch($collection_pid) {
+  
+  $batch = array(
+    'operations' => array(),
+    'finished' => 'grinnell_tweaks_policy_sync_finished',
+    'title' => t('Processing Policy Sync'),
+    'init_message' => t('Policy Sync Batch is starting.'),
+    'progress_message' => t('Processed @current out of @total.'),
+    'error_message' => t('Policy Sync Batch has encountered an error.'),
+    'file' => drupal_get_path('module', 'grinnell_tweaks') . '/policy_sync.inc',
+  );
+
+  $pids = get_related_items_as_array($collection_pid);
+  foreach($pids as $pid) {
+    $batch['operations'][] = array('grinnell_tweaks_sync_policy', array($pid));
+  }
+  batch_set($batch);
+  batch_process('node');
+  
 }
 
 
