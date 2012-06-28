@@ -129,7 +129,9 @@ function grinnell_tweaks_menu() {
 }
 
 function grinnell_tweaks_policy_sync_batch($collection_pid) {
-  
+
+  module_load_include('inc','fedora_repository','api/fedora_collection');
+    
   $batch = array(
     'operations' => array(),
     'finished' => 'grinnell_tweaks_policy_sync_finished',
