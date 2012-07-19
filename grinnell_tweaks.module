@@ -21,8 +21,8 @@ function grinnell_tweaks_menu_alter(&$items) {
 }
 
 function grinnell_tweaks_islandora_solr_search($query, $fq = NULL, $dismax = NULL, $display = NULL) {
-  if (isset($REQUEST['form_id'])) {
-    switch ($REQUEST['form_id']) {
+  if (isset($_REQUEST['form_id'])) {
+    switch ($_REQUEST['form_id']) {
       case 'scholar_search_form':
       case 'islandora_extended_search_form':
         $_SESSION['scholar']['search']['sort'] = $_REQUEST['sort'];
