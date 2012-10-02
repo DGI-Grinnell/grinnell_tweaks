@@ -16,6 +16,7 @@ function grinnell_tweaks_form_content_model_viewer_ingest_metadata_form_alter(&$
 }
 */
 
+/*
 function grinnell_tweaks_menu_alter(&$items) {
   $items['islandora/solr/search']['page callback'] = 'grinnell_tweaks_islandora_solr_search';
 }
@@ -34,7 +35,7 @@ function grinnell_tweaks_islandora_solr_search($query, $fq = NULL, $dismax = NUL
   }
   return islandora_solr_search($query,$fq,$dismax,$display);
 }
-
+*/
 /**
  * Implementation of hook_form_alter().
  */
@@ -51,19 +52,6 @@ function grinnell_tweaks_form_alter(&$form, $form_state, $form_id) {
       $form['terms'][$key]['field']['#value'] = 'text';
     }
   }
-  if ('islandora_xacml_editor_page' == $form_id) {
-    // stop Team Grinnell hanging themselves by blocking access to XML or RDF datastreams,
-    // which will make DC, MODS, RELS-[IN|EX]T and XACML policies not work 
-    unset($form['dsidmime']['mime']['#options']['application/rdf+xml']);
-    unset($form['dsidmime']['mime']['#options']['text/xml']);
-    // ... and stop them blocking the protected datastreams themselves
-    unset($form['dsidmime']['dsid']['#options']['DC']);
-    unset($form['dsidmime']['dsid']['#options']['MODS']);
-    unset($form['dsidmime']['dsid']['#options']['RELS-EXT']);
-    unset($form['dsidmime']['dsid']['#options']['RELS-INT']);
-    unset($form['dsidmime']['dsid']['#options']['COLLECTION_POLICY']);
-    unset($form['dsidmime']['dsid']['#options']['POLICY']);
-  }
 }
 
 function grinnell_tweaks_islandora_solr_search_query_processor() {
@@ -71,20 +59,16 @@ function grinnell_tweaks_islandora_solr_search_query_processor() {
   GLOBAL $user;
   
   $users = array('anonymous');
-  $roles = array('all');
+  $roles = array('anonymous user');
   
   if (!user_is_anonymous()) {
     $users[] = _grinnell_tweaks_in_quotes($user->name);
     $roles = array_merge($roles, array_map('_grinnell_tweaks_in_quotes',$user->roles));
   }
-  else {
-    $roles[] = '"anonymous user"';
-  }
       
   $params['fq'] = array(
      '+(rels.isViewableByUser:('. join(' OR ',$users) .') OR rels.isViewableByRole:('. join(' OR ',$roles) .'))',
   );
-  
   if (isset($_SESSION['scholar']['search']['sort'])) {
     $sort = $_SESSION['scholar']['search']['sort'];
     if (isset($_SESSION['scholar']['search']['order'])) {
@@ -95,7 +79,6 @@ function grinnell_tweaks_islandora_solr_search_query_processor() {
   return $params;
   
 }
-
 
 function _grinnell_tweaks_in_quotes($string) {
   return '"'. $string .'"';
